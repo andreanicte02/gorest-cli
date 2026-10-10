@@ -1,0 +1,6 @@
+/dist/
+/bin/
+/web/gorest.wasm
+/web/wasm_exec.js
+.idea/
+.DS_Store

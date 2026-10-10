@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>gorest-cli — live demo</title>
+  <meta name="description" content="A Go client for the GoRest API, compiled to WebAssembly and running in your browser.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">Go → WebAssembly</p>
+      <h1>gorest-cli</h1>
+      <p class="lede">
+        A small Go client for the <a href="https://gorest.co.in" target="_blank" rel="noopener">GoRest</a> users API.
+        This page runs the <em>same Go package</em> the CLI uses, compiled to WebAssembly — no backend involved.
+      </p>
+      <p class="links">
+        <a class="btn" href="https://github.com/andreanicte02/gorest-cli">View source</a>
+        <a class="btn ghost" href="https://github.com/andreanicte02/gorest-cli/releases/latest">Download the CLI</a>
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <nav class="tabs" role="tablist">
+        <button role="tab" data-op="list" aria-selected="true">list</button>
+        <button role="tab" data-op="get">get</button>
+        <button role="tab" data-op="create">create</button>
+        <button role="tab" data-op="update">update</button>
+        <button role="tab" data-op="delete">delete</button>
+      </nav>
+
+      <form id="form" autocomplete="off">
+        <div class="grid">
+          <label data-show="get update delete">User ID
+            <input name="id" type="number" min="1" placeholder="e.g. 8660809">
+          </label>
+          <label data-show="list">Page
+            <input name="page" type="number" min="1" value="1">
+          </label>
+          <label data-show="list">Per page
+            <input name="perPage" type="number" min="1" max="100" value="5">
+          </label>
+          <label data-show="create update">Name
+            <input name="name" placeholder="Ada Lovelace">
+          </label>
+          <label data-show="create update">Email
+            <input name="email" type="email" placeholder="ada@example.com">
+          </label>
+          <label data-show="create update">Gender
+            <select name="gender"><option value="">—</option><option>female</option><option>male</option></select>
+          </label>
+          <label data-show="create update">Status
+            <select name="status"><option value="">—</option><option>active</option><option>inactive</option></select>
+          </label>
+          <label data-show="create update delete" class="full">API token
+            <input name="token" type="password" placeholder="Required for writes — get one at gorest.co.in/my-account/access-tokens">
+            <small>Kept in memory only and sent straight to gorest.co.in.</small>
+          </label>
+        </div>
+        <button type="submit" id="run" disabled>Loading Go runtime…</button>
+      </form>
+
+      <div class="term">
+        <div class="cmd"><span class="prompt">$</span> <code id="cmd">gorest list</code></div>
+        <pre id="out" aria-live="polite">Output will appear here.</pre>
+      </div>
+    </section>
+
+    <section class="how">
+      <h2>How it works</h2>
+      <ol>
+        <li><code>gorest/</code> is a plain Go package: typed models, context-aware requests and structured API errors, covered by tests against <code>httptest</code>.</li>
+        <li><code>cmd/gorest</code> wraps it as a CLI, released for Linux, macOS and Windows with GoReleaser.</li>
+        <li><code>cmd/wasm</code> exposes the same package to JavaScript through <code>syscall/js</code>; Go's <code>net/http</code> maps onto the browser's <code>fetch</code>.</li>
+        <li>GitHub Actions builds the <code>.wasm</code> and deploys this page to GitHub Pages on every push.</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    Built by <a href="https://github.com/andreanicte02">@andreanicte02</a>. Data from the public GoRest sandbox.
+  </footer>
+
+  <script src="wasm_exec.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
